@@ -5,4 +5,5 @@ RUN cargo build --release
 
 FROM debian:bullseye-slim
 COPY --from=builder /backend/target/release/backend /usr/local/bin/backend
+EXPOSE 3001
 ENTRYPOINT ["backend"]
