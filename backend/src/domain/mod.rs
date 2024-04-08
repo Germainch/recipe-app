@@ -1,7 +1,6 @@
 pub(crate) mod ingredient;
 mod user;
 
-
 // Path: backend/src/handlers/mod.rs
 
 pub struct Ingredient {
@@ -19,5 +18,3 @@ pub async fn read_ingredient(id: u32) -> Ingredient {
 pub async fn create_ingredient(ingredients: Vec<Ingredient>) -> Vec<Ingredient> {
     ingredients
 }
-
-

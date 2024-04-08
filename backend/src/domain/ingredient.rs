@@ -1,18 +1,13 @@
+use serde::{Deserialize, Serialize};
 
-#[derive(Debug)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct Ingredient {
-    pub id: u32,
+    pub id: i32,
     pub name: String,
 }
 
 impl Ingredient {
     pub fn new(name: String) -> Self {
-        Ingredient {
-            id : 1,
-            name,
-        }
+        Ingredient { id: 1, name }
     }
 }
-
-
-

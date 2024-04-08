@@ -1,4 +1,3 @@
-
 #[derive(Debug)]
 pub struct User {
     id: uuid::Uuid,
@@ -19,4 +18,3 @@ impl User {
         }
     }
 }
-

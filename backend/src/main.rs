@@ -1,8 +1,7 @@
-mod handlers;
-mod domain;
 mod app_state;
+mod domain;
+mod handlers;
 
-use std::net::{IpAddr, Ipv4Addr, SocketAddrV4};
 use axum::{
     async_trait,
     extract::{FromRef, FromRequestParts, State},
@@ -11,11 +10,12 @@ use axum::{
     Router,
 };
 use sqlx::postgres::{PgPool, PgPoolOptions};
+use std::net::{IpAddr, Ipv4Addr, SocketAddrV4};
 use tokio::net::TcpListener;
 use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
 
 use std::time::Duration;
-
+use axum::routing::post;
 
 #[tokio::main]
 async fn main() {
@@ -27,9 +27,8 @@ async fn main() {
         .with(tracing_subscriber::fmt::layer())
         .init();
 
-
-    let port : u16 = std::env::var("PORT").unwrap().parse::<u16>().unwrap();
-    let db_connection_str = std::env::var("DATABASE_URL").expect("DATABASE_URL must be set");
+    let port: u16 = 3001;
+    let db_connection_str = "postgres://fl0user:FxUDTnLt4EC3@ep-gentle-snowflake-a287b2br.eu-central-1.aws.neon.fl0.io:5432/recipe-db?sslmode=require";
 
     // set up connection pool
     let pool = PgPoolOptions::new()
@@ -40,10 +39,16 @@ async fn main() {
 
     // build our application with some routes
     let app = Router::new()
+        .route("/ingredients", get(handlers::read_ingredient))
+        .route("/ingredients", post(handlers::create_ingredient))
+        .route("/users", get(handlers::read_user))
+        .route("/users", post(handlers::create_user))
         .with_state(pool);
 
     // run it with hyper
-    let listener = TcpListener::bind(SocketAddrV4::new( Ipv4Addr::LOCALHOST, port )).await.unwrap();
+    let listener = TcpListener::bind(SocketAddrV4::new(Ipv4Addr::LOCALHOST, port))
+        .await
+        .unwrap();
     tracing::debug!("listening on {}", listener.local_addr().unwrap());
     axum::serve(listener, app).await.unwrap();
 }
