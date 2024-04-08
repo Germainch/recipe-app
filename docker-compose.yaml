@@ -8,24 +8,22 @@ services:
       - api
     ports:
       - "3000:3000"
+    environment:
+      - API_PORT = 3001
+      - PORT = 3000
   api:
     build:
         context: backend
         dockerfile: Dockerfile
-    depends_on:
-      - postgres
     ports:
       - "3001:3001"
-  postgres:
-    image: postgres
-    ports:
-      - "5432:5432"
-    restart: always
-    environment: 
-      POSTGRES_PASSWORD: password
-      POSTGRES_USER: user
-    volumes: 
-      - postgres:/var/lib/postgresql/data
-volumes:
-    postgres:
-        driver: local
+    environment:
+      - DB_URL = postgres://fl0user:FxUDTnLt4EC3@ep-gentle-snowflake-a287b2br.eu-central-1.aws.neon.fl0.io:5432/recipe-db?sslmode=require
+      - DB_USER = fl0user
+      - DB_PASSWORD = FxUDTnLt4EC3
+      - DB_HOST = ep-gentle-snowflake-a287b2br.eu-central-1.aws.neon.fl0.io
+      - DB_PORT = 5432
+      - PORT = 3001
+      - DB_NAME = recipe-db
+
+

@@ -1,9 +1,8 @@
-FROM rust:1.67 as builder
+FROM rust:1-buster as builder
 WORKDIR /backend
 COPY . .
 RUN cargo build --release
-
-FROM debian:bullseye-slim
+FROM debian:buster-slim
 COPY --from=builder /backend/target/release/backend /usr/local/bin/backend
 EXPOSE 3001
 ENTRYPOINT ["backend"]
