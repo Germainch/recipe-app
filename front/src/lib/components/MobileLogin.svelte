@@ -1,20 +1,19 @@
 <script lang='ts'>
 
-import {ListBox, ListBoxItem, popup} from '@skeletonlabs/skeleton';
+    import {LightSwitch, ListBox, ListBoxItem, popup} from '@skeletonlabs/skeleton';
 import type { PopupSettings } from '@skeletonlabs/skeleton';
 
-let loginCombobox: string;
 const popupComboboxLogin: PopupSettings = {
     event: 'click',
     target: 'popupComboboxLogin',
-    placement: 'bottom',
+    placement: 'bottom-end',
     closeQuery: '.listbox-item'
 };
 
 </script>
 
 <div class="flex items-center">
-    <button class="btn btn-sm mr-4 variant-filled-tertiary border-2" use:popup = {popupComboboxLogin}>
+    <button class="btn btn-sm m-4 p-1 dark:variant-glass-tertiary variant-glass-secondary" use:popup = {popupComboboxLogin}>
         <span>
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -35,12 +34,17 @@ const popupComboboxLogin: PopupSettings = {
     </button>
 </div>
 
-<div class="card shadow-xl py-2 variant-filled-tertiary"  data-popup="popupComboboxLogin" >
-    <div class="flex flex-col justify-center justify-items-center">
-        <button class="btn btn-sm variant-filled-tertiary">
-            <a href="/login"> Login </a></button>
-        <button class="btn btn-sm variant-filled-tertiary ">Sign up</button>
+<div class="card shadow-xl py-2 dark:variant-filled-tertiary variant-filled-secondary"  data-popup="popupComboboxLogin" >
+    <div class="flex flex-col justify-center justify-items-center items-center">
+        <button class="btn btn-sm">
+            <a href="/login"> Login </a>
+        </button>
+        <button class="btn btn-sm">
+            <a href="/signup"> Sign up </a>
+        </button>
+        <LightSwitch></LightSwitch>
     </div>
+
 </div>
 
 

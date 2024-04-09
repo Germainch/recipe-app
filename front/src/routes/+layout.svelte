@@ -19,9 +19,8 @@
                 <Hamburger></Hamburger>
 
             </svelte:fragment>
-            <h1> RECIPES </h1>
+            <h1 class="text-4xl font-extrabold"> RECIPES </h1>
             <svelte:fragment slot="trail">
-                <LightSwitch></LightSwitch>
                 <MobileLogin></MobileLogin>
             </svelte:fragment>
         </AppBar>

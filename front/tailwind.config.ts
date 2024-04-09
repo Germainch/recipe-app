@@ -7,7 +7,7 @@ import forms from '@tailwindcss/forms';
 // @ts-expect-error
 import typography from '@tailwindcss/typography';
 import { skeleton } from '@skeletonlabs/tw-plugin'
-
+import {myCustomTheme} from "./themes/customtheme";
 
 export default {
 	darkMode: 'class',
@@ -27,8 +27,13 @@ export default {
 					},
 					"modern",
 					"crimson",
-					"hamlindigo"
+					"hamlindigo",
+					"rocket",
+
 				],
+				custom: [
+					myCustomTheme
+				]
 			},
 		}),
 	],
