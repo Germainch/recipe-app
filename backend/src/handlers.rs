@@ -1,4 +1,4 @@
-use crate::domain::ingredient::Ingredient;
+use crate::domain::ingredient::{CreateIngredient, Ingredient};
 use axum::{extract, http};
 use sqlx::PgPool;
 
@@ -7,27 +7,28 @@ use sqlx::PgPool;
  ****************************************************/
 pub async fn read_ingredient(
     extract::State(pool): extract::State<PgPool>,
-) -> Result<(http::StatusCode, axum::Json<Ingredient>), http::StatusCode> {
-    let ingredient_contains = "carrot";
+) -> Result<(http::StatusCode, axum::Json<Vec<Ingredient>>), http::StatusCode> {
+
+
     let result = sqlx::query_as!(
         Ingredient,
-        "SELECT * FROM ingredients WHERE name LIKE $1",
-        ingredient_contains
+        "SELECT * FROM ingredients",
     )
-    .fetch_one(&pool)
+    .fetch_all(&pool)
     .await;
 
     match result {
-        Ok(ingredient) => Ok((http::StatusCode::OK, axum::Json(ingredient))),
+        Ok(ingredients) => Ok((http::StatusCode::OK, axum::Json(ingredients))),
         Err(_) => Err(http::StatusCode::NOT_FOUND)
     }
 }
 
 pub async fn create_ingredient(
     extract::State(pool): extract::State<PgPool>,
-    axum::Json(payload): axum::Json<Ingredient>,
-) -> Result<(http::StatusCode, axum::Json<Ingredient>), http::StatusCode> {
-    let ingredient = Ingredient::new(payload.name);
+    axum::Json(payload): axum::Json<CreateIngredient>,
+) -> Result<(http::StatusCode, axum::Json<CreateIngredient>), http::StatusCode> {
+
+    let ingredient = CreateIngredient::new(payload.name);
     let result = sqlx::query!(
         "INSERT INTO ingredients (name) VALUES ($1)",
         &ingredient.name

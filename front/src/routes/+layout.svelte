@@ -1,0 +1,36 @@
+<script lang="ts">
+	import '../app.postcss';
+    import {AppBar, AppShell, LightSwitch} from "@skeletonlabs/skeleton";
+    import Hamburger from "$lib/components/Hamburger.svelte";
+    import { computePosition, autoUpdate, offset, shift, flip, arrow } from '@floating-ui/dom';
+    import { storePopup } from '@skeletonlabs/skeleton';
+    import MobileLogin from "$lib/components/MobileLogin.svelte";
+
+
+    storePopup.set({ computePosition, autoUpdate, offset, shift, flip, arrow });
+</script>
+
+
+
+<AppShell class="h-lvh w-lvw">
+    <svelte:fragment slot="header">
+        <AppBar slotDefault="place-self-center" slotTrail="place-content-end" shadow="shadow-lg" >
+            <svelte:fragment slot="lead">
+                <Hamburger></Hamburger>
+
+            </svelte:fragment>
+            <h1> RECIPES </h1>
+            <svelte:fragment slot="trail">
+                <LightSwitch></LightSwitch>
+                <MobileLogin></MobileLogin>
+            </svelte:fragment>
+        </AppBar>
+    </svelte:fragment>
+
+
+    <!-- PAGE Contents -->
+    <slot/>
+
+
+</AppShell>
+
