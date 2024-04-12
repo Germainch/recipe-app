@@ -1,10 +1,10 @@
 <script lang="ts">
 	import '../app.postcss';
-    import {AppBar, AppShell, LightSwitch} from "@skeletonlabs/skeleton";
+    import {AppBar, AppShell} from "@skeletonlabs/skeleton";
     import Hamburger from "$lib/components/Hamburger.svelte";
     import { computePosition, autoUpdate, offset, shift, flip, arrow } from '@floating-ui/dom';
     import { storePopup } from '@skeletonlabs/skeleton';
-    import MobileLogin from "$lib/components/MobileLogin.svelte";
+    import UserMenu from "$lib/components/UserMenu.svelte";
 
 
     storePopup.set({ computePosition, autoUpdate, offset, shift, flip, arrow });
@@ -21,7 +21,8 @@
             </svelte:fragment>
             <h1 class="text-4xl font-extrabold"> RECIPES </h1>
             <svelte:fragment slot="trail">
-                <MobileLogin></MobileLogin>
+                <UserMenu></UserMenu>
+
             </svelte:fragment>
         </AppBar>
     </svelte:fragment>

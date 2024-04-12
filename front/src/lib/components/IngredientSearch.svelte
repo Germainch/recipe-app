@@ -19,7 +19,7 @@
 <div class="card p-4 flex flex-col align-items-center justify-items-center items-center
 gap-2" >
     <h2> Select your ingredients</h2>
-    <InputChip bind:value={chipList} name="chips" placeholder="Enter an Ingredient..." whitelist={flavorsWhitelist} on:invalid={onInvalidHandler} />
+    <InputChip bind:value={chipList} name="ingredient" placeholder="Enter an Ingredient..." whitelist={flavorsWhitelist} on:invalid={onInvalidHandler} />
     <button use:popup={popupCombobox}>autocomplete</button>
 </div>
 
