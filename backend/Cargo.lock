@@ -148,6 +148,7 @@ dependencies = [
  "axum",
  "chrono",
  "dotenv",
+ "rand",
  "serde",
  "serde_json",
  "sqlx",

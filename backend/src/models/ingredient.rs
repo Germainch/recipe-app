@@ -2,22 +2,25 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Ingredient {
-    pub id: i32,
-    pub name: String,
-}
-#[derive(Debug, Serialize, Deserialize)]
-pub struct CreateIngredient {
-    pub name: String,
+    id: i32,
+    name: String,
 }
 
 impl Ingredient {
-    pub fn new(name: String) -> Self {
-        Ingredient { id: 1, name }
+    pub fn new(id: i32, name: &str) -> Self {
+        Ingredient { id, name : name.to_string() }
     }
-}
 
-impl CreateIngredient{
-    pub fn new(name: String) -> Self {
-        CreateIngredient { name }
+    pub fn id(&self) -> i32 {
+        self.id
+    }
+    pub fn name(&self) -> &str {
+        &self.name
+    }
+    pub fn set_id(&mut self, id: i32) {
+        self.id = id;
+    }
+    pub fn set_name(&mut self, name: String) {
+        self.name = name;
     }
 }

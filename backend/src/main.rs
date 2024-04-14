@@ -1,6 +1,7 @@
 
 mod models;
-mod handlers;
+mod controllers;
+mod middlewares;
 
 use axum::{
     async_trait,
@@ -17,6 +18,7 @@ use std::time::Duration;
 use axum::routing::post;
 use dotenv::dotenv;
 use std::env::current_dir;
+use crate::controllers::user_controller;
 
 #[tokio::main]
 async fn main() {
@@ -31,11 +33,6 @@ async fn main() {
         .with(tracing_subscriber::fmt::layer())
         .init();
 
-    let binding = std::env::var("DATABASE_URL")
-        .unwrap_or("postgres://postgres:password@localhost:5432/example_tokio_postgres".to_string());
-    println!("DATABASE_URL: {}", binding);
-
-    let DATABASE_URL = binding.as_str();
     let port: u16 = 3001;
 
     // set up connection pool
@@ -45,12 +42,14 @@ async fn main() {
         .await
         .expect("can't connect to database");
 
-    // build our application with some routes
+    // routes
     let app = Router::new()
-        .route("/ingredients", get(handlers::read_ingredient))
-        .route("/ingredients", post(handlers::create_ingredient))
-        .route("/users", get(handlers::read_user))
-        .route("/users", post(handlers::create_user))
+        .route("/ingredients:id", get(user_controller::read_ingredient))
+        .route("/ingredients:containsSTR", get(user_controller::read_ingredient))
+        .route("/ingredients", get(user_controller::read_ingredient))
+        .route("/ingredients", post(user_controller::create_ingredient))
+        .route("/users", get(user_controller::read_user))
+        .route("/users", post(user_controller::create_user))
         .with_state(pool);
 
     // run it

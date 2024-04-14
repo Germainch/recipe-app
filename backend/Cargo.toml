@@ -16,3 +16,4 @@ tracing = "0.1.40"
 uuid = { version = "1.8.0", features = ["v4"] }
 chrono = "0.4.37"
 dotenv = "0.15.0"
+rand = "0.8.5"
