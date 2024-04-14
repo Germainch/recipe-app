@@ -1,5 +1,5 @@
-mod app_state;
-mod domain;
+
+mod models;
 mod handlers;
 
 use axum::{
@@ -17,6 +17,8 @@ use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
 use std::time::Duration;
 use axum::routing::post;
 
+const DATABASE_URL: &str = "postgres://postgres:password@localhost:5432/data";
+
 #[tokio::main]
 async fn main() {
     tracing_subscriber::registry()
@@ -28,7 +30,7 @@ async fn main() {
         .init();
 
     let port: u16 = 3001;
-    let db_connection_str = "postgres://fl0user:FxUDTnLt4EC3@ep-gentle-snowflake-a287b2br.eu-central-1.aws.neon.fl0.io:5432/recipe-db?sslmode=require";
+    let db_connection_str = DATABASE_URL;
 
     // set up connection pool
     let pool = PgPoolOptions::new()
@@ -45,7 +47,7 @@ async fn main() {
         .route("/users", post(handlers::create_user))
         .with_state(pool);
 
-    // run it with hyper
+    // run it
     let listener = TcpListener::bind(SocketAddrV4::new(Ipv4Addr::LOCALHOST, port))
         .await
         .unwrap();

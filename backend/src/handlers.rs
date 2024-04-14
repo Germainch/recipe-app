@@ -1,6 +1,7 @@
-use crate::domain::ingredient::{CreateIngredient, Ingredient};
+
 use axum::{extract, http};
 use sqlx::PgPool;
+use crate::models::ingredient::{CreateIngredient, Ingredient};
 
 /****************************************************
  ****************** INGREDIENTS *********************
