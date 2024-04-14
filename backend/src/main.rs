@@ -13,14 +13,16 @@ use sqlx::postgres::{PgPool, PgPoolOptions};
 use std::net::{IpAddr, Ipv4Addr, SocketAddrV4};
 use tokio::net::TcpListener;
 use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
-
 use std::time::Duration;
 use axum::routing::post;
-
-const DATABASE_URL: &str = "postgres://postgres:password@localhost:5432/data";
+use dotenv::dotenv;
+use std::env::current_dir;
 
 #[tokio::main]
 async fn main() {
+    // imports .env file into process environment
+    dotenv().ok();
+    // sets up tracing
     tracing_subscriber::registry()
         .with(
             tracing_subscriber::EnvFilter::try_from_default_env()
@@ -29,13 +31,17 @@ async fn main() {
         .with(tracing_subscriber::fmt::layer())
         .init();
 
+    let binding = std::env::var("DATABASE_URL")
+        .unwrap_or("postgres://postgres:password@localhost:5432/example_tokio_postgres".to_string());
+    println!("DATABASE_URL: {}", binding);
+
+    let DATABASE_URL = binding.as_str();
     let port: u16 = 3001;
-    let db_connection_str = DATABASE_URL;
 
     // set up connection pool
     let pool = PgPoolOptions::new()
         .max_connections(5)
-        .connect(&db_connection_str)
+        .connect(&std::env::var("DATABASE_URL").expect("DATABASE_URL must be set"))
         .await
         .expect("can't connect to database");
 

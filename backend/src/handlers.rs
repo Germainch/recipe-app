@@ -10,7 +10,6 @@ pub async fn read_ingredient(
     extract::State(pool): extract::State<PgPool>,
 ) -> Result<(http::StatusCode, axum::Json<Vec<Ingredient>>), http::StatusCode> {
 
-
     let result = sqlx::query_as!(
         Ingredient,
         "SELECT * FROM ingredients",
@@ -22,6 +21,7 @@ pub async fn read_ingredient(
         Ok(ingredients) => Ok((http::StatusCode::OK, axum::Json(ingredients))),
         Err(_) => Err(http::StatusCode::NOT_FOUND)
     }
+
 }
 
 pub async fn create_ingredient(
@@ -41,17 +41,19 @@ pub async fn create_ingredient(
         Ok(_) => Ok((http::StatusCode::OK, axum::Json(ingredient))),
         Err(e) => Err(http::StatusCode::INTERNAL_SERVER_ERROR),
     }
+
 }
 
 /****************************************************
  ****************** USERS ***************************
  ****************************************************/
 
+
 pub async fn read_user(
     extract::State(pool): extract::State<PgPool>,
     axum::Json(payload): axum::Json<String>,
 ) -> Result<(http::StatusCode, axum::Json<String>), http::StatusCode> {
-    let user_name = payload;
+     let user_name = payload;
     let result = sqlx::query!("SELECT * FROM users WHERE username = $1", user_name)
         .fetch_one(&pool)
         .await;

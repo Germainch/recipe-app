@@ -2,6 +2,7 @@ FROM rust:1-buster as builder
 WORKDIR /backend
 COPY . .
 RUN cargo install sqlx-cli
+RUN sqlx migrate run
 RUN cargo sqlx prepare
 RUN cargo build --release
 
