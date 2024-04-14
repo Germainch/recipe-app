@@ -1,3 +1,0 @@
-interface Ingredient {
-	name: string,
-}

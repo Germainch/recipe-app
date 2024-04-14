@@ -14,12 +14,6 @@
         <label for="password">Password</label>
         <input type="password" id="password" name="password" placeholder="Your password.." class="text-black" required>
 
-        {#if formType === 'Sign Up'}
-            <label for="password">Confirm Password</label>
-            <input type="password" id="password" name="password" placeholder="Your password.." class="text-black" required>
-        {/if}
-
         <button class="btn btn-md dark:variant-filled-primary variant-filled-secondary m-2">{ formType }</button>
     </form>
-
 </div>

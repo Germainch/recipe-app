@@ -39,20 +39,10 @@ const popupComboboxLogin: PopupSettings = {
     <div class="card shadow-xl py-2 dark:variant-filled-tertiary variant-filled-secondary"  data-popup="popupComboboxLogin" >
         <div class="flex flex-col justify-center justify-items-center items-center">
             <button class="btn btn-sm">
-                <a href="/login"> Login </a>
+                <a href="/auth/login"> Login </a>
             </button>
             <button class="btn btn-sm">
-                <a href="/signup"> Sign up </a>
-            </button>
-            <LightSwitch></LightSwitch>
-        </div>
-    </div>
-
-
-    <div class="card shadow-xl py-2 dark:variant-filled-tertiary variant-filled-secondary"  data-popup="popupComboboxLogin" >
-        <div class="flex flex-col justify-center justify-items-center items-center">
-            <button class="btn btn-sm">
-                <a href="/logout"> Logout </a>
+                <a href="/auth/signup"> Sign up </a>
             </button>
             <LightSwitch></LightSwitch>
         </div>

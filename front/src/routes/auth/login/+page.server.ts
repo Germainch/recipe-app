@@ -1,12 +1,12 @@
 import type {PageServerLoad} from "../../../../.svelte-kit/types/src/routes/$types";
-import {type Actions } from "@sveltejs/kit";
+import {type Actions, redirect} from "@sveltejs/kit";
 import {randomUUID} from "node:crypto";
 
 
-export const load: PageServerLoad = async ({ cookies }) => {
-
-    const userSession = cookies.get('sessionId')
-    return { userSession };
+export const load: PageServerLoad = async ( event) => {
+    if(event.locals.user){
+        throw redirect(303, "/")
+    }
 };
 
 
@@ -17,11 +17,5 @@ export const load: PageServerLoad = async ({ cookies }) => {
 export const actions = {
     default : async ({ cookies, request }) => {
 
-        const data = await request.formData();
-        const username = data.get('username');
-        const password = data.get('password');
-        const sessionid= randomUUID();
-
-        return {success: true};
     },
 } satisfies Actions;

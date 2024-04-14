@@ -4,13 +4,13 @@ import {text, timestamp} from "drizzle-orm/pg-core";
 
 
 export const userTable = pgTable("user", {
-    id: text("id").primaryKey(),
+    id: varchar("id").primaryKey(),
     username : varchar("username").notNull(),
     password : varchar("password").notNull(),
 });
 
 export const sessionTable = pgTable("session", {
-    id: text("id").primaryKey(),
+    id: varchar("id").primaryKey(),
     userId: text("user_id")
         .notNull()
         .references(() => userTable.id),

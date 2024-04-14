@@ -47,6 +47,7 @@
     "@lucia-auth/adapter-drizzle": "^1.0.7",
     "dotenv": "^16.4.5",
     "drizzle-orm": "^0.30.8",
+    "oslo": "^1.2.0",
     "pg": "^8.11.5",
     "postgres": "^3.4.4"
   }

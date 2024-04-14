@@ -2,9 +2,6 @@
 import SigningForm from "$lib/components/SigningForm.svelte";
 import {redirectAfter2Sec} from "$lib/utils/utils";
 
-export let data;
-export let form;
-
 
 
 </script>

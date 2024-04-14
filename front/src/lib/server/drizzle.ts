@@ -1,18 +1,25 @@
 import { DrizzlePostgreSQLAdapter } from '@lucia-auth/adapter-drizzle';
 import postgres from "postgres";
-import { pgTable, text, timestamp } from "drizzle-orm/pg-core";
 import { drizzle } from "drizzle-orm/postgres-js";
 import {sessionTable, userTable} from "../../../drizzle/schemas/schema";
+import * as dotenv from "dotenv";
+dotenv.config({path: "../.env"})
+
+
 
 /**
  * Initialize the database Query client connection
  */
-const queryClient = postgres("postgres://postgres:adminadmin@0.0.0.0:5432/db");
+
+const connectionString = process.env.DATABASE_URL ?? ""
+export const queryClient = postgres(connectionString);
+
+console.log(connectionString)
 
 /**
  * Initialize the Drizzle ORM database connection
  */
-const db = drizzle(queryClient);
+export const db = drizzle(queryClient);
 
 
 /**
