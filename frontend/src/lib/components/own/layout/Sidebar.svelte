@@ -2,25 +2,27 @@
     import {Button} from "$lib/components/ui/button";
     import { Toggle } from "$lib/components/ui/toggle";
     import * as ToggleGroup from "$lib/components/ui/toggle-group";
-    import {Routes} from "$lib/state";
+    import {type AppState, Routes} from "$lib/state";
     import {currentState} from "$lib/stores";
 
     let value: string | undefined;
+    let appState: AppState = $currentState;
 
-    switch (value){
+    $: switch (value){
         case "myRecipes":
-            $currentState.route = Routes.myRecipes;
+            currentState.set({route: Routes.myRecipes, isLogged: false});
             break;
         case "search":
-            $currentState.route = Routes.search;
+            currentState.set({route: Routes.search, isLogged: false});
             break;
         case "create":
-            $currentState.route = Routes.create;
+            currentState.set({route: Routes.create, isLogged: false});
             break;
         case undefined:
-            $currentState.route = Routes.home;
+            currentState.set({route: Routes.home, isLogged: false});
             break;
     }
+
 
 </script>
 

@@ -3,9 +3,16 @@
     import Main from "$lib/components/own/layout/Main.svelte";
     import {currentState} from "$lib/stores";
 
-
-    console.log($currentState);
-
+    currentState.subscribe((value) => {
+        console.log(value);
+    });
+    function loop(){
+        setTimeout(() => {
+            console.log($currentState);
+            loop();
+        }, 1000000);
+    }
+    loop();
 </script>
 
 
