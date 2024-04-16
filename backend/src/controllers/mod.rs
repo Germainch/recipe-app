@@ -1,2 +1,2 @@
 pub mod user_controller;
-mod ingredient_controller;
+pub mod ingredient_controller;

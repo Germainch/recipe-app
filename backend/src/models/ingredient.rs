@@ -2,8 +2,8 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Ingredient {
-    id: i32,
-    name: String,
+    pub id: i32,
+    pub name: String,
 }
 
 impl Ingredient {

@@ -18,7 +18,9 @@ use std::time::Duration;
 use axum::routing::post;
 use dotenv::dotenv;
 use std::env::current_dir;
-use crate::controllers::user_controller;
+use axum::http::{HeaderValue, Method};
+use crate::controllers::{ingredient_controller, user_controller};
+use tower_http::cors::CorsLayer;
 
 #[tokio::main]
 async fn main() {
@@ -44,12 +46,16 @@ async fn main() {
 
     // routes
     let app = Router::new()
-        .route("/ingredients:id", get(user_controller::read_ingredient))
-        .route("/ingredients:containsSTR", get(user_controller::read_ingredient))
-        .route("/ingredients", get(user_controller::read_ingredient))
-        .route("/ingredients", post(user_controller::create_ingredient))
+        .route("/ingredients/:id", get(ingredient_controller::read_ingredient))
+        .route("/ingredients/containsStr/:str", get(ingredient_controller::read_ingredient_contains))
+        .route("/ingredients", get(ingredient_controller::read_all))
         .route("/users", get(user_controller::read_user))
         .route("/users", post(user_controller::create_user))
+        .layer(
+            CorsLayer::new()
+                .allow_origin("http://localhost:5173".parse::<HeaderValue>().unwrap())
+                .allow_methods([Method::GET]),
+        )
         .with_state(pool);
 
     // run it

@@ -1,17 +1,18 @@
 <script lang="ts">
     import RecipesLayout from "$lib/components/own/recipe/RecipesLayout.svelte";
-    import Sidebar from "$lib/components/own/layout/Sidebar.svelte";
     import {Routes} from "$lib/state";
     import {currentState} from "$lib/stores";
     import IngredientCombobox from "$lib/components/own/ingredient-form/IngredientCombobox.svelte";
     import IngredientForm from "$lib/components/own/ingredient-form/IngredientForm.svelte";
+    import SubHeader from "$lib/components/own/layout/SubHeader.svelte";
+    import RecipeCard from "$lib/components/own/recipe/RecipeCard.svelte";
 
     $: console.log($currentState.route);
 </script>
 
-<main id="main">
+<main id="main" class="flex flex-col">
 
-    <Sidebar/>
+    <SubHeader/>
 
     {#if $currentState.route === Routes.search}
         <div>
@@ -19,7 +20,7 @@
             <RecipesLayout></RecipesLayout>
         </div>
     {:else if $currentState.route === Routes.create}
-        <IngredientCombobox></IngredientCombobox>
+        <RecipeCard recipe={ {title: "alo", ingredients: [{id:1, name:"hha"}], steps: ["manger"]} }></RecipeCard>
     {:else if $currentState.route === Routes.home}
         <IngredientCombobox></IngredientCombobox>
     {:else if $currentState.route === Routes.myRecipes}
@@ -28,13 +29,3 @@
 
 </main>
 
-
-
-<style>
-    #main{
-        display: grid;
-        grid-template-rows: 1fr;
-        grid-template-columns: 1fr 6fr;
-        gap: 4px;
-    }
-</style>

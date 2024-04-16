@@ -5,42 +5,30 @@
     import * as Popover from "$lib/components/ui/popover/index.js";
     import { Button } from "$lib/components/ui/button/index.js";
     import { cn } from "$lib/utils.js";
-    import { tick } from "svelte";
+    import {onMount, tick} from "svelte";
 
     import Ingredient from "$lib/components/own/ingredient-form/Ingredient.svelte";
+    import type {Ingredient} from "$lib/models/ingredient";
 
 
 
-    const ingredients = [
-        {
-            value: "sveltekit",
-            label: "SvelteKit",
-        },
-        {
-            value: "next.js",
-            label: "Next.js",
-        },
-        {
-            value: "nuxt.js",
-            label: "Nuxt.js",
-        },
-        {
-            value: "remix",
-            label: "Remix",
-        },
-        {
-            value: "astro",
-            label: "Astro",
-        },
-    ];
+    let ingredients: Ingredient[] = [];
 
-
+    onMount(async () => {
+        if (ingredients.length > 0) return;
+        const response = await fetch("http://localhost:3001/ingredients",{
+            method: "GET",
+        });
+        console.log("GET request to /ingredients")
+        const data = await response.json();
+        ingredients.push(...data);
+    });
 
     let open = false;
     let value = "";
 
     $: selectedValue =
-        ingredients.find((f) => f.value === value)?.label ??
+        ingredients.find((f) => f.name === value)?.name ??
         "Select an Ingredient...";
     let valueArray : string[] = [];
     // We want to refocus the trigger button when the user selects
@@ -72,10 +60,10 @@
             <Command.Input placeholder="Search framework..." />
             <Command.Empty>No framework found.</Command.Empty>
             <Command.Group>
-                {#each ingredients as framework}
+                {#each ingredients as ingredient}
                     <Command.Item
 
-                        value={framework.value}
+                        value={ingredient.name}
                         onSelect={(currentValue) => {
                             value = currentValue;
                             valueArray.push(currentValue);
@@ -83,8 +71,8 @@
                             closeAndFocusTrigger(ids.trigger);
                         }}
                     >
-                        <Check class={cn( "mr-2 h-4 w-4", value !== framework.value && "text-transparent")} />
-                            {framework.label}
+                        <Check class={cn( "mr-2 h-4 w-4", value !== ingredient.name && "text-transparent")} />
+                            {ingredient.name}
 
                     </Command.Item>
                 {/each}

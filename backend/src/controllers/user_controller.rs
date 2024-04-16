@@ -1,7 +1,7 @@
 
 use axum::{extract, http};
 use sqlx::PgPool;
-use crate::models::ingredient::{CreateIngredient, Ingredient};
+
 
 
 pub async fn read_user(
@@ -22,13 +22,14 @@ pub async fn read_user(
 }
 
 pub async fn create_user() -> http::StatusCode {
-    http::StatusCode::CREATED
+    todo!("Implement create_user");
+
 }
 
 pub async fn update_user() -> http::StatusCode {
-    http::StatusCode::OK
+    todo!("Implement update_user");
 }
 
 pub async fn delete_user() -> http::StatusCode {
-    http::StatusCode::OK
+    todo!("Implement delete_user");
 }

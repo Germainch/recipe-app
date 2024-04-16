@@ -1,5 +1,7 @@
+import type {Ingredient} from "$lib/models/ingredient";
+
 export type Recipe = {
     title: string;
-    ingredients: string[];
+    ingredients: Ingredient[];
     steps: string[];
 }

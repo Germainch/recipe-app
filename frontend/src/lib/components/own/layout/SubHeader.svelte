@@ -5,6 +5,7 @@
     import {type AppState, Routes} from "$lib/state";
     import {currentState} from "$lib/stores";
 
+
     let value: string | undefined;
     let appState: AppState = $currentState;
 
@@ -26,9 +27,9 @@
 
 </script>
 
-<aside class="p-3 border-r-2 border-b-2 visible">
+<div class="p-3 visible border-b-2 border-b-destructive-foreground">
     <ToggleGroup.Root bind:value type="single">
-        <ToggleGroup.Item value="myRecipes" aria-label="Toggle Browse">
+        <ToggleGroup.Item value="myRecipes" aria-label="Toggle Browse" >
             My recipes
         </ToggleGroup.Item>
         <ToggleGroup.Item value="search" aria-label="Toggle Search">
@@ -38,6 +39,5 @@
             Create Recipe
         </ToggleGroup.Item>
     </ToggleGroup.Root>
-    value={value}
-</aside>
+</div>
 
