@@ -6,10 +6,8 @@
     import { Button } from "$lib/components/ui/button/index.js";
     import { cn } from "$lib/utils.js";
     import {onMount, tick} from "svelte";
-
-    import Ingredient from "$lib/components/own/ingredient-form/Ingredient.svelte";
+    import {selectedIngredients} from "$lib/stores";
     import type {Ingredient} from "$lib/models/ingredient";
-
 
 
     let ingredients: Ingredient[] = [];
@@ -30,7 +28,7 @@
     $: selectedValue =
         ingredients.find((f) => f.name === value)?.name ??
         "Select an Ingredient...";
-    let valueArray : string[] = [];
+
     // We want to refocus the trigger button when the user selects
     // an item from the list so users can continue navigating the
     // rest of the form with the keyboard.
@@ -39,7 +37,7 @@
         tick().then(() => {
             document.getElementById(triggerId)?.focus();
         });
-        console.log(valueArray);
+
     }
 
 </script>
@@ -66,8 +64,15 @@
                         value={ingredient.name}
                         onSelect={(currentValue) => {
                             value = currentValue;
-                            valueArray.push(currentValue);
-                            valueArray=valueArray;
+
+                            // update the selectedIngredients store
+                            selectedIngredients.update((selected) => {
+                                if (selected.includes(ingredient)) {
+                                    return selected;
+                                }
+                                return [...selected, ingredient];
+                            });
+
                             closeAndFocusTrigger(ids.trigger);
                         }}
                     >
@@ -80,9 +85,3 @@
         </Command.Root>
     </Popover.Content>
 </Popover.Root>
-
-<div    class="w-max h-max bg-primary">
-    {#each valueArray as item}
-        <Ingredient ingredientName={item} />
-    {/each}
-</div>

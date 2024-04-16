@@ -2,16 +2,35 @@
 
     import Button from "$lib/components/ui/button/Button.svelte";
     import type {Ingredient} from "$lib/models/ingredient";
+    import {selectedIngredients} from "$lib/stores";
+    import {Card} from "$lib/components/ui/card";
 
-    export let ingredients: Ingredient[] = [];
+
 
     function removeIngredient(index: number) {
-        ingredients = ingredients.filter((_, i) => i !== index);
+        selectedIngredients.set($selectedIngredients.filter((_, i) => i !== index)) ;
     }
+
 </script>
 
-{#each ingredients as ingredient}
+<div id="selected-ingr-flex">
+    {#each $selectedIngredients as ingredient, index}
+        <Card class="flex flex-row items-center justify-center text-[12px] p-1">
+            <p> {ingredient.name} </p>
+            <button class="p-1  hover:text-destructive"  on:click={ () => removeIngredient(index) }> X </button>
+        </Card>
+    {/each}
+</div>
 
-    <p> {ingredient.name} </p>
-    <Button>X</Button>
-{/each}
+
+<style>
+    #selected-ingr-flex{
+        display: flex;
+        gap: 0.5rem;
+        align-items: center;
+        justify-content: center;
+        align-content: center;
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+</style>
