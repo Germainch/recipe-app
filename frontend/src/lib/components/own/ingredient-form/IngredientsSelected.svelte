@@ -15,7 +15,7 @@
 
 <div id="selected-ingr-flex">
     {#each $selectedIngredients as ingredient, index}
-        <Card class="flex flex-row items-center justify-center text-[12px] p-1">
+        <Card class="flex flex-row items-center justify-center text-[12px] p-1 bg-">
             <p> {ingredient.name} </p>
             <button class="p-1  hover:text-destructive"  on:click={ () => removeIngredient(index) }> X </button>
         </Card>

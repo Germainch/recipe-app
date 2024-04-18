@@ -3,6 +3,7 @@
     import Main from "$lib/components/own/layout/Main.svelte";
     import {currentState} from "$lib/stores";
 
+
     currentState.subscribe((value) => {
         console.log(value);
     });

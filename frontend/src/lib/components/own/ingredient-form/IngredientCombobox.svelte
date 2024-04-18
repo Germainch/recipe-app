@@ -10,23 +10,21 @@
     import type {Ingredient} from "$lib/models/ingredient";
 
 
+    // The value the ingredients list shown on popover
     let ingredients: Ingredient[] = [];
 
-    onMount(async () => {
-        if (ingredients.length > 0) return;
-        const response = await fetch("http://localhost:3001/ingredients",{
-            method: "GET",
-        });
-        console.log("GET request to /ingredients")
-        const data = await response.json();
-        ingredients.push(...data);
-    });
-
+    // popover state
     let open = false;
+
+    // The selected value
+    let selValue = "";
+
+    // The input value
     let value = "";
 
+
     $: selectedValue =
-        ingredients.find((f) => f.name === value)?.name ??
+        ingredients.find((f) => f.name === selValue)?.name ??
         "Select an Ingredient...";
 
     // We want to refocus the trigger button when the user selects
@@ -40,6 +38,33 @@
 
     }
 
+
+    async function fetchData() {
+
+        let url = `http://localhost:3001/ingredients/containsStr/${value}`;
+
+        await fetch( url , {
+            method: "GET",
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data);
+                ingredients = data;
+            })
+
+    }
+
+    function handleInputChange(e: any){
+        if (value.length <= 3){
+            return;
+        }
+
+        fetchData().then(
+            () => console.log(ingredients)
+        );
+    }
+
+
 </script>
 <Popover.Root bind:open let:ids>
     <Popover.Trigger asChild let:builder>
@@ -48,22 +73,22 @@
                 variant="secondary"
                 role="search"
                 aria-expanded={open}
-                class="w-[200px] justify-between border-2 border-secondary-foreground opacity-70 hover:opacity-100"
+                class="w-[200px] justify-between border-2 border-secondary-foreground opacity-70 hover:border-primary"
         >
-            {selectedValue}
+        Select Ingredients...
         </Button>
     </Popover.Trigger>
-    <Popover.Content class="w-[200px] p-0">
+    <Popover.Content class="flex flex-col content-stretch">
         <Command.Root>
-            <Command.Input placeholder="Search framework..." />
-            <Command.Empty>No framework found.</Command.Empty>
+                <input id="search" type="search" autocomplete="off" bind:value on:input={handleInputChange} placeholder="Search..." class="border-3 bg-secondary border-input p-3" aria-label="search"/>
+            <Command.Empty>No Ingredients found.</Command.Empty>
             <Command.Group>
                 {#each ingredients as ingredient}
                     <Command.Item
 
                         value={ingredient.name}
                         onSelect={(currentValue) => {
-                            value = currentValue;
+                            selValue = currentValue;
 
                             // update the selectedIngredients store
                             selectedIngredients.update((selected) => {
@@ -76,7 +101,7 @@
                             closeAndFocusTrigger(ids.trigger);
                         }}
                     >
-                        <Check class={cn( "mr-2 h-4 w-4", value !== ingredient.name && "text-transparent")} />
+                        <Check class={cn( "mr-2 h-4 w-4", selValue !== ingredient.name && "text-transparent")} />
                             {ingredient.name}
 
                     </Command.Item>

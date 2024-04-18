@@ -6,6 +6,12 @@
     import IngredientForm from "$lib/components/own/ingredient-form/IngredientForm.svelte";
     import SubHeader from "$lib/components/own/layout/SubHeader.svelte";
     import RecipeCard from "$lib/components/own/recipe/RecipeCard.svelte";
+    import RecipeAlertDialog from "$lib/components/own/recipe/RecipeAlertDialog.svelte";
+    import {DefaultRecipe} from "$lib/models/recipe";
+    import Search from "$lib/components/own/layout/search-recipe/Search.svelte";
+    import SavedRecipes from "$lib/components/own/layout/saved-recipes/SavedRecipes.svelte";
+    import CreateRecipe from "$lib/components/own/layout/create-recipe/CreateRecipe.svelte";
+
 
     $: console.log($currentState.route);
 </script>
@@ -16,15 +22,15 @@
 
     {#if $currentState.route === Routes.search}
         <div>
-            <IngredientForm/>
+            <Search></Search>
             <RecipesLayout></RecipesLayout>
         </div>
     {:else if $currentState.route === Routes.create}
-        <RecipeCard recipe={ {title: "alo", ingredients: [{id:1, name:"hha"}], steps: ["manger"]} }></RecipeCard>
+        <CreateRecipe></CreateRecipe>
     {:else if $currentState.route === Routes.home}
         <IngredientCombobox></IngredientCombobox>
     {:else if $currentState.route === Routes.myRecipes}
-        <RecipesLayout></RecipesLayout>
+        <SavedRecipes></SavedRecipes>
     {/if}
 
 </main>

@@ -26,6 +26,7 @@
     "bits-ui": "^0.21.3",
     "clsx": "^2.1.0",
     "cmdk-sv": "^0.0.17",
+    "dotenv": "^16.4.5",
     "formsnap": "^1.0.0",
     "lucide-svelte": "^0.368.0",
     "shadcn-svelte": "^0.10.3",
