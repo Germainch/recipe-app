@@ -4,53 +4,51 @@ version: "3.8"
 # Docker Compose file for a recipe app
 
 services:
-#   # Frontend service
-#   front:
-#     build:
-#       context: front
-#       dockerfile: Dockerfile
-#     depends_on:
-#       - back
-#     ports:
-#       - "3000:3000"
-#     environment:
-#       - API_PORT=3001
-#       - PORT=3000
+   # Frontend service
+  frontend:
+    build:
+      context: frontend
+      dockerfile: Dockerfile
+    depends_on:
+      - backend
+      - db
+    ports:
+      - "5173:5173"
+    environment:
+      - BACKEND_URL=http://localhost:3001
+      - BACKEND_PORT=3001
 
-#   # Backend service
-#   back:
-#     build:
-#       context: backend
-#       dockerfile: Dockerfile
-#     depends_on:
-#       - db
-#     ports:
-#       - "3001:3001"
+   # Backend service
+  backend:
+    build:
+      context: backend
+      dockerfile: Dockerfile
+    environment:
+      - DATABASE_URL=postgres://postgres:password@localhost:5432
+    depends_on:
+      - db
+    restart:
+      always
+    ports:
+      - "3001:3001"
+    networks:
+        - backend-network
 
-#   db:
-#     image: postgres
-#     ports:
-#       - "5432:5432"
-#     volumes:
-#       - ./data:/var/lib/postgresql/data
-#     healthcheck:
-#       test: ["CMD-SHELL", "pg_isready -U postgres -d data"]
-#       interval: 10s
-#       timeout: 5s
-#       retries: 3
+# Database service
   db:
     image: postgres
     ports:
       - "5432:5432"
+    restart: always
     volumes:
       - ./data:/var/lib/postgresql/data
     environment:
       - POSTGRES_PASSWORD=password
       - POSTGRES_USER=postgres
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
-      interval: 10s
-      timeout: 5s
-      retries: 3
+    networks:
+        - backend-network
 volumes :
   data:
+networks:
+    backend-network:
+        driver: bridge

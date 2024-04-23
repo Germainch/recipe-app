@@ -33,6 +33,6 @@
     "sveltekit-superforms": "^2.12.4",
     "tailwind-merge": "^2.2.2",
     "tailwind-variants": "^0.2.1",
-    "zod": "^3.22.4"
+    "zod": "^3.22.5"
   }
 }

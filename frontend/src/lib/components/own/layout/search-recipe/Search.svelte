@@ -39,11 +39,6 @@
                     <IngredientCombobox></IngredientCombobox>
                 {/if}
             </Card.Title>
-            <Card.Description>
-
-
-
-            </Card.Description>
         </Card.Header>
 
         <div id="selected-ingredients" class="self-stretch p-3">
@@ -51,9 +46,7 @@
         </div>
 
         <Card.Content>
-
             <SearchButton mode={mode} input={input}> Search </SearchButton>
-
         </Card.Content>
     </Card.Root>
 </div>

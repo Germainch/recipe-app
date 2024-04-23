@@ -12,4 +12,9 @@ export const selectedIngredients: Writable<Ingredient[]> = writable([]);
 export const userRecipes: Writable<Recipe[]> = writable([]);
 export const foundRecipes: Writable<Recipe[]> = writable([]);
 
+// RECIPE CREATION
+export const steps: Writable<string[]> = writable([]);
+export const ingredients: Writable<Ingredient[]> = writable([]);
+
 export const backendURL = import.meta.env.BACKEND_URL;
+

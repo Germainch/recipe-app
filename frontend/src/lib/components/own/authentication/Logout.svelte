@@ -4,6 +4,7 @@
     import * as Form from "$lib/components/ui/form";
     import {Input} from "$lib/components/ui/command";
     import type {SuperForm} from "sveltekit-superforms";
+    import {currentState} from "$lib/stores";
 
 
     let formData;
@@ -11,6 +12,7 @@
     function handleLogout() {
         console.log("Logging out...");
         //#todo validate form
+        $currentState.isLogged = false;
     }
 </script>
 

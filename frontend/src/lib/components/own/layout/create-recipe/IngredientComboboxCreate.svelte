@@ -6,13 +6,13 @@
     import { Button } from "$lib/components/ui/button/index.js";
     import { cn } from "$lib/utils.js";
     import {onMount, tick} from "svelte";
-    import {selectedIngredients} from "$lib/stores";
+    import {ingredients} from "$lib/stores";
     import type {Ingredient} from "$lib/models/ingredient";
 
 
 
     // The value the ingredients list shown on popover
-    let ingredients: Ingredient[] = [];
+    let ingredientsPopover: Ingredient[] = [];
 
     // popover state
     let open = false;
@@ -25,7 +25,7 @@
 
 
     $: selectedValue =
-        ingredients.find((f) => f.name === selValue)?.name ??
+        ingredientsPopover.find((f) => f.name === selValue)?.name ??
         "Select an Ingredient...";
 
     // We want to refocus the trigger button when the user selects
@@ -50,7 +50,7 @@
             .then((response) => response.json())
             .then((data) => {
                 console.log(data);
-                ingredients = data;
+                ingredientsPopover = data;
             })
 
     }
@@ -61,7 +61,7 @@
         }
 
         fetchData().then(
-            () => console.log(ingredients)
+            () => console.log(ingredientsPopover)
         );
     }
 
@@ -84,7 +84,7 @@
                 <input id="search" type="search" autocomplete="off" bind:value on:input={handleInputChange} placeholder="Search..." class="border-3 bg-secondary border-input p-3" aria-label="search"/>
             <Command.Empty>No Ingredients found.</Command.Empty>
             <Command.Group>
-                {#each ingredients as ingredient}
+                {#each ingredientsPopover as ingredient}
                     <Command.Item
 
                         value={ingredient.name}
@@ -92,7 +92,7 @@
                             selValue = currentValue;
 
                             // update the selectedIngredients store
-                            selectedIngredients.update((selected) => {
+                            ingredients.update((selected) => {
                                 if (selected.includes(ingredient)) {
                                     return selected;
                                 }

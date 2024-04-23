@@ -11,16 +11,16 @@
 
     $: switch (value){
         case "myRecipes":
-            currentState.set({route: Routes.myRecipes, isLogged: false});
+            currentState.set({route: Routes.myRecipes, isLogged: $currentState.isLogged});
             break;
         case "search":
-            currentState.set({route: Routes.search, isLogged: false});
+            currentState.set({route: Routes.search, isLogged: $currentState.isLogged});
             break;
         case "create":
-            currentState.set({route: Routes.create, isLogged: false});
+            currentState.set({route: Routes.create, isLogged: $currentState.isLogged});
             break;
         case undefined:
-            currentState.set({route: Routes.home, isLogged: false});
+            currentState.set({route: Routes.home, isLogged: $currentState.isLogged});
             break;
     }
 

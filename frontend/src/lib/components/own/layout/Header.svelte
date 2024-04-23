@@ -4,13 +4,14 @@
 
 import Hambuger from "$lib/components/own/hamburger/Hambuger.svelte";
 import UserMenu from "$lib/components/own/user-menu/UserMenu.svelte";
+import UserPopover from "$lib/components/own/user-menu/UserPopover.svelte";
 </script>
 
 
 <header id="header" class="border-b-2 background">
         <Hambuger></Hambuger>
         <h1 class="font-bold"> TITLE </h1>
-        <UserMenu></UserMenu>
+        <UserPopover/>
 </header>
 
 <style>

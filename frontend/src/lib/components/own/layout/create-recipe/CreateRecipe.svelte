@@ -2,69 +2,76 @@
     import * as AlertDialog from "$lib/components/ui/alert-dialog";
     import RecipeCard from "$lib/components/own/recipe/RecipeCard.svelte";
     import type {Recipe} from "$lib/models/recipe";
+    import IngredientCombobox from "$lib/components/own/ingredient-form/IngredientCombobox.svelte";
+    import * as Card from "$lib/components/ui/card";
+    import {ingredients} from "$lib/stores.js";
+    import {steps} from "$lib/stores.js";
+    import Button from "$lib/components/ui/button/Button.svelte";
+    import IngredientsSelected from "$lib/components/own/ingredient-form/IngredientsSelected.svelte";
+    import IngredientComboboxCreate from "$lib/components/own/layout/create-recipe/IngredientComboboxCreate.svelte";
+    import IngredientsSelectedCreate from "$lib/components/own/layout/create-recipe/IngredientsSelectedCreate.svelte";
 
-    let recipe: Recipe = {
-        title: "Spaghetti Carbonara",
-        ingredients: [
-            { name: "Spaghetti" },
-            { name: "Eggs" },
-            { name: "Pancetta" },
-            { name: "Parmesan" },
-            { name: "Pepper" }
-        ],
-        steps: [
-            "Cook the spaghetti",
-            "Fry the pancetta",
-            "Mix the eggs with the cheese and pepper",
-            "Mix everything together"
-        ]
 
+    let recipeCreated: Recipe = {
+        title: "",
+        ingredients: $ingredients,
+        steps: $steps
     };
+
+    let userSteps = $steps;
+
+    function addStep() {
+        $steps = [...$steps, ""];
+    }
+
+
+    function removeStep(i:number){
+       $steps.splice(i , 1);
+       $steps = [...$steps];
+       console.log($steps);
+    }
+
+    function handleInputChange(i: number){
+        $steps[i] = (document.getElementById(`step${i}`) as HTMLInputElement).value;
+    }
+
+    function handleKeyPress(event){
+        if (event.key === "Enter" || event.type === "click") {
+            addStep();
+        }
+    }
 </script>
 
-<AlertDialog.Root>
-    <AlertDialog.Trigger>
-        <RecipeCard {recipe}></RecipeCard>
+<Card.Root class="border-[2px]  hover:border-primary flex flex-col">
+    <Card.Header>
+        <Card.Title>
+            <input class="p-3 bg-secondary dark:text-white" type="text" name="Title" id="title" placeholder="recipe name...">
+        </Card.Title>
+        <Card.Description>
 
-    </AlertDialog.Trigger>
-    <AlertDialog.Content>
-        <AlertDialog.Header>
-            <AlertDialog.Title> { recipe.title } </AlertDialog.Title>
-            <AlertDialog.Description>
-                <h3 class="font-bold underline"> Ingredients: </h3>
-                <div id="dialog-ingredients">
-                    {#each recipe.ingredients as ingredient}
-                        <div>{ ingredient.name }</div>
-                    {/each}
+            <IngredientComboboxCreate/>
+            <IngredientsSelectedCreate/>
+
+        </Card.Description>
+
+    </Card.Header>
+    <Card.Content class="flex flex-col items-center">
+        <!-- -->
+        Steps:
+        <div class="flex flex-col">
+            {#each $steps as step, i}
+                <div class="flex flex-row p-1">
+                    <h3 class="p-2">{i + 1}</h3>
+                    <input class="border-2 border-secondary bg-secondary dark:text-white p-1" value={step} on:input={() => handleInputChange(i)} on:keypress={handleKeyPress} type="text" name="Step" id="step{i}"  placeholder="step...">
+                    <button class="text-destructive p-1" on:click={ () => removeStep(i) }>X</button>
                 </div>
-                <h3 class="font-bold underline"> Steps: </h3>
-                <div id="dialog-steps">
-                    {#each recipe.steps as step, i}
-                        <div> {i} : { step }</div>
-                    {/each}
-                </div>
-            </AlertDialog.Description>
-        </AlertDialog.Header>
-        <AlertDialog.Footer>
-            <AlertDialog.Cancel> Close </AlertDialog.Cancel>
-            <AlertDialog.Action> Save Recipe </AlertDialog.Action>
-        </AlertDialog.Footer>
-    </AlertDialog.Content>
-</AlertDialog.Root>
+            {/each}
+        </div>
 
+        <Button variant="secondary" class="p-2" on:click={addStep}>Add Step</Button>
 
-<style>
-    #dialog-ingredients {
-        margin-top: 1rem;
-        display: flex;
-        justify-content: center;
-    }
-
-    #dialog-steps {
-        margin-top: 1rem;
-        display: flex;
-        flex-direction: column;
-        gap: 1rem;
-
-    }
-</style>
+    </Card.Content>
+</Card.Root>
+<div class="flex items-center justify-center p-4">
+    <Button variant="default"> Create Recipe </Button>
+</div>
