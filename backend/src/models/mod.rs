@@ -1,2 +1,3 @@
 pub(crate) mod ingredient;
-mod user;
+pub(crate) mod user;
+pub(crate) mod recipe;
