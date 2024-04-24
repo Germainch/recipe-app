@@ -1,17 +1,17 @@
 use serde::{Deserialize, Serialize};
 
-#[derive(Debug)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct User {
-    id: i64,
-    name: String,
-    password_hash: String,
+    pub id: i64,
+    pub name: String,
+    pub password_hash: String,
 }
 impl User {
-    pub fn new(name: String, password_hash: String) -> Self {
+    pub fn new(name: &str, password_hash: &str) -> Self {
         User {
             id: 0,
-            name,
-            password_hash,
+            name: name.to_string(),
+            password_hash: password_hash.to_string(),
         }
     }
 
