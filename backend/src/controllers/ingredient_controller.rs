@@ -6,7 +6,7 @@ use crate::models::ingredient::{Ingredient};
 
 pub async fn read_ingredient(
     extract::State(pool): extract::State<PgPool>,
-    extract::Path(id): extract::Path<i32>,
+    extract::Path(id): extract::Path<i64>,
 ) -> Result<(http::StatusCode, axum::Json<Ingredient>), http::StatusCode> {
 
     let result = sqlx::query_as!(
@@ -21,23 +21,6 @@ pub async fn read_ingredient(
         Ok(ingredients) => Ok((http::StatusCode::OK, axum::Json(ingredients))),
         Err(_) => Err(http::StatusCode::NOT_FOUND)
     }
-}
-
-pub async fn read_all(
-    extract::State(pool): extract::State<PgPool>,
-) -> Result<(http::StatusCode, axum::Json<Vec<Ingredient>>), http::StatusCode> {
-
-        let result = sqlx::query_as!(
-            Ingredient,
-            "SELECT * FROM ingredients"
-        )
-            .fetch_all(&pool)
-            .await;
-
-        match result {
-            Ok(ingredients) => Ok((http::StatusCode::OK, axum::Json(ingredients))),
-            Err(_) => Err(http::StatusCode::NOT_FOUND)
-        }
 }
 
 pub async fn read_ingredient_contains(

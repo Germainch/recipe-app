@@ -19,7 +19,7 @@ use axum::routing::post;
 use dotenv::dotenv;
 use std::env::current_dir;
 use axum::http::{HeaderValue, Method};
-use crate::controllers::{ingredient_controller, user_controller};
+use crate::controllers::{ingredient_controller, recipe_controller, user_controller};
 use tower_http::cors::CorsLayer;
 
 #[tokio::main]
@@ -50,13 +50,16 @@ async fn main() {
     let app = Router::new()
         .route("/ingredients/:id", get(ingredient_controller::read_ingredient))
         .route("/ingredients/containsStr/:str", get(ingredient_controller::read_ingredient_contains))
-        .route("/ingredients", get(ingredient_controller::read_all))
-        .route("/users", get(user_controller::read_user))
+        .route("/users/:id", get(user_controller::read_user))
         .route("/users", post(user_controller::create_user))
-        .route("/recipes/search-by-ingredients", get(recipe_controller::search_by_ingredients))
-        .route("/recipes/search-by-name?ingredients", get(recipe_controller::search_by_name))
+
+        .route("/recipes/search-by-ingredients/:ingredients", get(recipe_controller::read_recipes))
+
+        .route("/recipes/search-by-name/:recipe_name", get(recipe_controller::read_recipes))
+        /*
         .route("/recipes/saved/?sessionID=", get(user_controller::update_saved_recipes))
         .route("/recipes/saved/?sessionID=", post(recipe_controller::create_recipe))
+        */
         .layer(
             CorsLayer::new()
                 .allow_origin("http://localhost:5173".parse::<HeaderValue>().unwrap())

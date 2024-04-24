@@ -1,26 +1,21 @@
 use serde::{Deserialize, Serialize};
 
-#[derive(Debug)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct User {
-    id: uuid::Uuid,
-    name: String,
-    password_hash: String,
-    inserted_at: chrono::DateTime<chrono::Utc>,
-    updated_at: chrono::DateTime<chrono::Utc>,
+    pub id: i64,
+    pub name: String,
+    pub password_hash: String,
 }
-
 impl User {
-    pub fn new(name: String, password_hash: String) -> Self {
+    pub fn new(name: &str, password_hash: &str) -> Self {
         User {
-            id: uuid::Uuid::new_v4(),
-            name,
-            password_hash,
-            inserted_at: chrono::Utc::now(),
-            updated_at: chrono::Utc::now(),
+            id: 0,
+            name: name.to_string(),
+            password_hash: password_hash.to_string(),
         }
     }
 
-    pub fn id(&self) -> uuid::Uuid {
+    pub fn id(&self) -> i64 {
         self.id
     }
     pub fn name(&self) -> &str {
@@ -29,13 +24,7 @@ impl User {
     pub fn password_hash(&self) -> &str {
         &self.password_hash
     }
-    pub fn inserted_at(&self) -> chrono::DateTime<chrono::Utc> {
-        self.inserted_at
-    }
-    pub fn updated_at(&self) -> chrono::DateTime<chrono::Utc> {
-        self.updated_at
-    }
-    pub fn set_id(&mut self, id: uuid::Uuid) {
+    pub fn set_id(&mut self, id: i64) {
         self.id = id;
     }
     pub fn set_name(&mut self, name: String) {
@@ -43,11 +32,5 @@ impl User {
     }
     pub fn set_password_hash(&mut self, password_hash: String) {
         self.password_hash = password_hash;
-    }
-    pub fn set_inserted_at(&mut self, inserted_at: chrono::DateTime<chrono::Utc>) {
-        self.inserted_at = inserted_at;
-    }
-    pub fn set_updated_at(&mut self, updated_at: chrono::DateTime<chrono::Utc>) {
-        self.updated_at = updated_at;
     }
 }
