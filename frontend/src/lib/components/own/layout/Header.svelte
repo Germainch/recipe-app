@@ -9,17 +9,16 @@ import UserPopover from "$lib/components/own/user-menu/UserPopover.svelte";
 
 
 <header id="header" class="border-b-2 background">
-        <Hambuger></Hambuger>
-        <h1 class="font-bold"> TITLE </h1>
+        <h1 class="font-bold"> Recipe-App </h1>
         <UserPopover/>
 </header>
 
 <style>
     #header{
-        display: grid;
+        display: flex;
+        justify-content: space-between;
         grid-template-rows: 1fr;
-        grid-template-columns: 1fr 3fr 1fr;
-        grid-template-areas: "hamburger  title  end";
+        grid-template-columns: 1fr 1fr;
         padding: 1rem;
         align-content: center;
     }

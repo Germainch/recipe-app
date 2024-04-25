@@ -7,6 +7,14 @@
     import Login from "$lib/components/own/authentication/Login.svelte";
     import SignUp from "$lib/components/own/authentication/SignUp.svelte";
     import Logout from "$lib/components/own/authentication/Logout.svelte";
+    import {getSavedRecipes} from "$lib/controllers/recipeSearch";
+    import {userRecipes} from "$lib/stores.js";
+    import RecipesSavedLayout from "$lib/components/own/layout/saved-recipes/RecipesSavedLayout.svelte";
+
+    onMount(async () => {
+        console.log("Current state: ", $currentState);
+        await getSavedRecipes();
+    });
 
 </script>
 
@@ -20,5 +28,5 @@
     </div>
 
 {:else}
-    <RecipesLayout></RecipesLayout>
+    <RecipesSavedLayout></RecipesSavedLayout>
 {/if}

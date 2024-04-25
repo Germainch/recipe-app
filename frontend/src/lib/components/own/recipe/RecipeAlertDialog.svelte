@@ -2,6 +2,8 @@
     import * as AlertDialog from "$lib/components/ui/alert-dialog";
     import RecipeCard from "$lib/components/own/recipe/RecipeCard.svelte";
     import type {Recipe} from "$lib/models/recipe";
+    import {saveRecipe} from "$lib/controllers/recipeSearch";
+    import {currentState} from "$lib/stores.js";
 
     export let recipe;
 
@@ -9,6 +11,13 @@
         return recipe.steps.split("\n");
     }
     let steps = parseSteps(recipe);
+    function handleSave(){
+        if (!$currentState.isLogged){
+            alert("You need to be logged in to save a recipe");
+            return;
+        }
+        saveRecipe(recipe);
+    }
 </script>
 
 <AlertDialog.Root>
@@ -30,7 +39,7 @@
         </AlertDialog.Header>
         <AlertDialog.Footer>
             <AlertDialog.Cancel> Close </AlertDialog.Cancel>
-            <AlertDialog.Action> Save Recipe </AlertDialog.Action>
+            <AlertDialog.Action on:click={handleSave}> Save Recipe </AlertDialog.Action>
         </AlertDialog.Footer>
     </AlertDialog.Content>
 </AlertDialog.Root>

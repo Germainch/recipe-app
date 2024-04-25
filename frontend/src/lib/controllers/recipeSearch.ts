@@ -20,32 +20,31 @@ export async function getRecipes(mode: boolean, recipeInput: string):Promise<Rec
     return result;
 }
 
-export function getSavedRecipes() {
+export async function getSavedRecipes() {
     let url = backendURL + "/recipes/saved/";
     let params = sessionStorage.getItem("sessionID") ?? "";
 
-    fetch(url + params, {
+    const response = await fetch(url + params, {
         method: "GET",
     })
-        .then(response => response.json())
-        .then(data => {
-            userRecipes.set(data);
-        })
+    const data: Recipe[] = await response.json();
+    console.log(data);
+    userRecipes.set(data);
 }
 
-export function saveRecipe(recipe: Recipe){
+export async function saveRecipe(recipe: Recipe){
     // update the local user recipe store
     userRecipes.update(recipes => { return [...recipes, recipe] });
+
     // update the server
-    let url = backendURL + "/recipes/saved";
-    let params = "&recipeID=" + recipe.id;
-    fetch(url + params, {
+    let url = (backendURL + "/recipes/saved/session/"+ sessionStorage.getItem("sessionID") + "/recipe/" + recipe.id);
+    const response = await fetch(url , {
         method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
     })
-        .then(response => response.json())
-        .then(data => {
-            console.log(data);
-        })
+    console.log("SAVE RECIPE RESPONSE:" , response.status);
 }
 
 export function deleteRecipe(recipe: Recipe){
