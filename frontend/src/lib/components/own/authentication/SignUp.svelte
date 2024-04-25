@@ -30,10 +30,10 @@
 
         let response = register(validated);
         if (response){
-            console.log("User registered");
+            alert("user registered successfully");
             $currentState.isLogged = true;
         } else {
-            console.log("User not registered");
+            alert("User not registered");
         }
     }
 </script>

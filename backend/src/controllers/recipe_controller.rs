@@ -38,6 +38,12 @@ pub async fn read_recipes(
             return Err(http::StatusCode::NOT_FOUND);
         }
     };
+    match fetched_recipes.len() {
+        0 => Err(http::StatusCode::NOT_ACCEPTABLE),
+        _ => Ok((http::StatusCode::OK, Json(fetched_recipes)))
+    }
+
+    /*
     let extension = fetch_recipes_by_name(&recipe_name).await;
     match extension{
         Ok(mut recipes) => {
@@ -49,7 +55,7 @@ pub async fn read_recipes(
     match fetched_recipes.len() {
         0 => Err(http::StatusCode::NOT_FOUND),
         _ => Ok((http::StatusCode::OK, Json(fetched_recipes)))
-    }
+    }*/
 }
 
 pub async fn fetch_recipes_by_name(name: &str) -> Result<Vec<Recipe>, Error >{
@@ -108,7 +114,11 @@ pub async fn read_recipes_by_ingredients(
         Ok(recipes) => recipes_fetched = recipes,
         Err(e) => {println!("Error: {}", e);}
     };
-
+    match recipes_fetched.len() {
+        0 =>  Err(http::StatusCode::NOT_FOUND) ,
+        _ =>  Ok( (http::StatusCode::OK, Json(recipes_fetched)) )
+    }
+    /*
     // fetch recipes from the Spoonacular API
     let ingredients_str = ingredients
         .iter()
@@ -148,7 +158,7 @@ pub async fn read_recipes_by_ingredients(
     match recipes_fetched.len() {
         0 => Err(http::StatusCode::NOT_FOUND),
         _ => Ok((http::StatusCode::OK, Json(recipes_fetched)))
-    }
+    } */
 }
 
 pub async fn fetch_recipe_summary(id: i64) -> Result<Recipe, Error>{

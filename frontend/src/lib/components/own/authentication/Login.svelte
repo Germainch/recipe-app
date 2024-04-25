@@ -43,9 +43,11 @@
         let result = login(data);
         if (result){
             $currentState.isLogged = true;
+            alert("You are logged in!")
             return;
         }
         else{
+            alert("Invalid username or password");
             $currentState.isLogged = false;
         }
     }
@@ -72,7 +74,7 @@
                            minlength="3"
                            maxlength="9"
                            required
-                           class="bg-secondary p-1 text-black dark:text-white valid:bg-green-200"
+                           class="bg-secondary p-1 text-black dark:text-white"
                            bind:value={usernameValue}
                     >
 
@@ -84,7 +86,7 @@
                            maxlength="9"
                            autocomplete="off"
                            required
-                           class="bg-secondary p-1 text-black dark:text-white valid:bg-green-200"
+                           class="bg-secondary p-1 text-black dark:text-white"
                            bind:value={passwordValue}
                     >
                 </form>

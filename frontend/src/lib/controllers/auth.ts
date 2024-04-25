@@ -2,7 +2,7 @@ import {currentState} from "$lib/stores";
 import {backendURL} from "$lib/stores";
 import type {validatedUser} from "$lib/models/user";
 
-export function login(user: validatedUser): boolean{
+export function login(user: validatedUser): boolean {
     let url = backendURL;
     let endpoint = "/login";
 

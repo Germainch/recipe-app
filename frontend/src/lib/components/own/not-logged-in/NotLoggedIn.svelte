@@ -4,9 +4,9 @@
 </script>
 
 
-<div class="flex flex-col justify-center items-center h-full w-full">
+<div class="flex flex-col justify-center self-center items-center w-1/2 p-5 m-4 gap-4">
     <h1> You have to log in to access this resource </h1>
-    <div class="flex flex row">
+    <div class="flex flex-row">
         <Login></Login>
         <SignUp></SignUp>
     </div>

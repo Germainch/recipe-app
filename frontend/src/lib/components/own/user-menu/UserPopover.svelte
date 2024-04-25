@@ -21,7 +21,6 @@
             </div>
         {:else}
             <div>
-                Hi
                 <Logout></Logout>
             </div>
         {/if}

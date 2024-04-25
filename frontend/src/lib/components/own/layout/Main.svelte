@@ -31,11 +31,15 @@
         {#if !$currentState.isLogged}
             <NotLoggedIn></NotLoggedIn>
         {:else}
-            <CreateRecipe></CreateRecipe>
+            <div class="p-3">
+                <CreateRecipe></CreateRecipe>
+            </div>
         {/if}
 
     {:else if $currentState.route === Routes.home}
-        <Home></Home>
+        <h1 class="flex justify-center items-center font-extrabold text-4xl self-center w-1/2 p-5 m-4">
+            Welcome
+        </h1>
     {:else if $currentState.route === Routes.myRecipes}
 
         {#if !$currentState.isLogged}

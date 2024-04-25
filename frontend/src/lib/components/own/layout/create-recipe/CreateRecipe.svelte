@@ -61,8 +61,8 @@
     }
 </script>
 
-<Card.Root class="border-[2px]  hover:border-primary flex flex-col">
-    <Card.Header>
+<Card.Root class="border-[2px] flex flex-col">
+    <Card.Header class="flex flex-col items-center">
         <Card.Title>
             <input class="p-3 bg-secondary dark:text-white" type="text" name="Title" id="title" placeholder="recipe name...">
         </Card.Title>

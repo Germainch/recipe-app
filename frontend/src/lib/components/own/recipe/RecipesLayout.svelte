@@ -12,6 +12,12 @@
         <RecipeAlertDialog {recipe} />
     {/each}
 </div>
+{#if $foundRecipes.length === 0}
+    <div class="flex flex-col items-center">
+        <p>No recipes found</p>
+        <p>There are no recipes that match your search criteria.</p>
+    </div>
+{/if}
 
 <style>
     #recipe-grid {

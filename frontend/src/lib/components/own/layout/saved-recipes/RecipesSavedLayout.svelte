@@ -12,6 +12,9 @@
         <RecipeAlertDialog {recipe} />
     {/each}
 </div>
+{#if $userRecipes.length === 0}
+    <p class="self-center"> You have no saved recipes yet </p>
+{/if}
 
 <style>
     #recipe-grid {
