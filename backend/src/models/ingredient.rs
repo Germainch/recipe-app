@@ -8,7 +8,10 @@ pub struct Ingredient {
 
 impl Ingredient {
     pub fn new(id: i64, name: &str) -> Self {
-        Ingredient { id, name : name.to_string() }
+        Ingredient {
+            id,
+            name: name.to_string(),
+        }
     }
 
     pub fn id(&self) -> i64 {

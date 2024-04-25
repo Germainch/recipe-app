@@ -1,7 +1,6 @@
+use crate::models::ingredient::Ingredient;
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
-use crate::models::ingredient::Ingredient;
-
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Recipe {
@@ -12,9 +11,13 @@ pub struct Recipe {
 }
 
 impl Recipe {
-
     pub fn new(id: i64, name: &str, steps: &str, created_by: i64) -> Self {
-        Recipe { id, name: name.to_string(), steps: steps.to_string(), created_by: Some(created_by) }
+        Recipe {
+            id,
+            name: name.to_string(),
+            steps: steps.to_string(),
+            created_by: Some(created_by),
+        }
     }
 
     fn steps_to_string(steps: Vec<String>) -> String {
@@ -48,5 +51,4 @@ impl Recipe {
     pub fn set_steps(&mut self, steps: String) {
         self.steps = steps;
     }
-
 }
