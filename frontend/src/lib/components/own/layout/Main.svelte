@@ -11,6 +11,8 @@
     import Search from "$lib/components/own/layout/search-recipe/Search.svelte";
     import SavedRecipes from "$lib/components/own/layout/saved-recipes/SavedRecipes.svelte";
     import CreateRecipe from "$lib/components/own/layout/create-recipe/CreateRecipe.svelte";
+    import NotLoggedIn from "$lib/components/own/not-logged-in/NotLoggedIn.svelte";
+    import {Home} from "lucide-svelte";
 
 
     $: console.log($currentState.route);
@@ -26,12 +28,21 @@
             <RecipesLayout></RecipesLayout>
         </div>
     {:else if $currentState.route === Routes.create}
-        <CreateRecipe></CreateRecipe>
-    {:else if $currentState.route === Routes.home}
-        <IngredientCombobox></IngredientCombobox>
-    {:else if $currentState.route === Routes.myRecipes}
-        <SavedRecipes></SavedRecipes>
-    {/if}
+        {#if !$currentState.isLogged}
+            <NotLoggedIn></NotLoggedIn>
+        {:else}
+            <CreateRecipe></CreateRecipe>
+        {/if}
 
+    {:else if $currentState.route === Routes.home}
+        <Home></Home>
+    {:else if $currentState.route === Routes.myRecipes}
+
+        {#if !$currentState.isLogged}
+            <NotLoggedIn></NotLoggedIn>
+        {:else}
+            <SavedRecipes></SavedRecipes>
+        {/if}
+    {/if}
 </main>
 

@@ -2,24 +2,27 @@ import {foundRecipes, selectedIngredients, userRecipes} from "$lib/stores";
 import type {Recipe} from "$lib/models/recipe";
 import {backendURL} from "$lib/stores";
 import type {Ingredient} from "$lib/models/ingredient";
+import type {RecipeAndIngredients} from "$lib/models/recipeAndIngredients";
 
 
 
-export function getRecipes(mode: boolean, recipeInput: string) {
+export async function getRecipes(mode: boolean, recipeInput: string):Promise<Recipe[]>{
     let ingredients: Ingredient[] = [];
     const unsubscribe = selectedIngredients.subscribe((value) => ingredients = value);
-
+    let result:Recipe[] = [];
+    console.log(ingredients)
     if (mode) {
-        getRecipesByName(recipeInput);
+       result = await getRecipesByName(recipeInput);
     } else {
-        getRecipesByIngredients(ingredients);
+       result = await getRecipesByIngredients(ingredients);
     }
     unsubscribe();
+    return result;
 }
 
 export function getSavedRecipes() {
-    let url = backendURL + "/recipes/saved";
-    let params = "?sessionID=" + localStorage.getItem("sessionID");
+    let url = backendURL + "/recipes/saved/";
+    let params = sessionStorage.getItem("sessionID") ?? "";
 
     fetch(url + params, {
         method: "GET",
@@ -60,52 +63,57 @@ export function deleteRecipe(recipe: Recipe){
         })
 }
 
-export function getRecipesByName(recipeName: string){
-    let url = backendURL + "/recipes/search-by-name";
-    let params = "?name=" + recipeName;
-    fetch(url + params, {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json",
-        }
-    }).then(response => response.json())
-        .then(data => {
-            foundRecipes.set(data);
+export async function getRecipesByName(recipeName: string): Promise<Recipe[]> {
+    let url = backendURL + "/recipes/search-by-name/";
+    let result: Recipe[] = [];
+    try {
+        const response = await fetch(url + recipeName, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            }
         })
-        .catch((error) => {
-            console.error("Error:", error);
-        });
+        const data = await response.json();
+        console.log(data);
+        result = data;
+    } catch (error) {
+        console.error("Error:", error);
+    }
+    return result
 }
 
-export function getRecipesByIngredients(ingredients: Ingredient[]){
+export async function getRecipesByIngredients(ingredients: Ingredient[]): Promise<Recipe[]>{
     let url = backendURL + "/recipes/search-by-ingredients";
-    let params = "?ingredients=" + ingredients.join(",");
-    fetch(url + params, {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json",
-        }
-    }).then(response => response.json())
-        .then(data => {
-            foundRecipes.set(data);
-        })
-        .catch((error) => {
-            console.error("Error:", error);
+    let recipes: Recipe[] = [];
+    try {
+        const response = await fetch(url , {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(ingredients),
         });
-
+        const data = await response.json();
+        console.log(data);
+        recipes = data;
+    } catch (error) {
+        console.error("Error:", error);
+    }
+    return recipes;
 }
 
-export function createRecipe(recipe: Recipe) {
-    let url = backendURL + "/recipes";
+export function createRecipe(recipe: RecipeAndIngredients) {
+    let sessionID = sessionStorage.getItem("sessionID") ?? "";
+    let url = backendURL + "/recipes/create/" + sessionID;
+    let body = JSON.stringify(recipe);
+    console.log(body);
     fetch(url, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
-            "Authorization": "Bearer " + localStorage.getItem("sessionID"),
         },
-        body: JSON.stringify(recipe),
+        body: body,
     })
-        .then(response => response.json())
         .then(data => {
             console.log(data);
         })

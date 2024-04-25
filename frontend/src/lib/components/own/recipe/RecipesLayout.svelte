@@ -3,32 +3,12 @@
     import RecipeCard from "$lib/components/own/recipe/RecipeCard.svelte";
     import {DefaultRecipe, type Recipe} from "$lib/models/recipe";
     import RecipeAlertDialog from "$lib/components/own/recipe/RecipeAlertDialog.svelte";
+    import {foundRecipes} from "$lib/stores";
 
-    let recipes: Recipe[] = [
-        DefaultRecipe,
-        DefaultRecipe,
-        DefaultRecipe,
-        DefaultRecipe,
-        DefaultRecipe,
-        DefaultRecipe,
-        DefaultRecipe,
-        DefaultRecipe,
-        DefaultRecipe,
-        DefaultRecipe,
-        DefaultRecipe,
-        DefaultRecipe,
-        DefaultRecipe,
-        DefaultRecipe,
-        DefaultRecipe,
-        DefaultRecipe,
-        DefaultRecipe,
-        ]
-
-    ;
 </script>
 
 <div id="recipe-grid">
-    {#each recipes as recipe}
+    {#each $foundRecipes as recipe}
         <RecipeAlertDialog {recipe} />
     {/each}
 </div>

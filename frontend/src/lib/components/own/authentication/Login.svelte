@@ -28,12 +28,26 @@
             document.getElementById("signin-button")?.removeAttribute("disabled");
     }
 
-    function handleSubmitSignIn(username: string, password: string) {
-        // validation server-side by comparing with database
-        let data = {username, password};
-        let result = login(data);
+    function handleClick() {
+        if (clientSideValidation())
+            handleSubmitSignIn(usernameValue, passwordValue);
+    }
 
-        $currentState.isLogged = true;
+    function handleSubmitSignIn(name: string, password_hash: string) {
+        // validation server-side by comparing with database
+        if (localStorage.getItem("sessionID") != null){
+            return;
+        }
+
+        let data = {id:0, name, password_hash};
+        let result = login(data);
+        if (result){
+            $currentState.isLogged = true;
+            return;
+        }
+        else{
+            $currentState.isLogged = false;
+        }
     }
 </script>
 
@@ -79,7 +93,7 @@
         </AlertDialog.Header>
         <AlertDialog.Footer>
             <AlertDialog.Cancel> Cancel </AlertDialog.Cancel>
-            <AlertDialog.Action id="signin-button" disabled={!clientSideValidated} on:click={handleSubmitSignIn}> Sign in </AlertDialog.Action>
+            <AlertDialog.Action id="signin-button" disabled={!clientSideValidated} on:click={handleClick}> Sign in </AlertDialog.Action>
         </AlertDialog.Footer>
     </AlertDialog.Content>
 </AlertDialog.Root>

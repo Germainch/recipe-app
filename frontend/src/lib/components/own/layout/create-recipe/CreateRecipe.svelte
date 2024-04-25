@@ -10,13 +10,21 @@
     import IngredientsSelected from "$lib/components/own/ingredient-form/IngredientsSelected.svelte";
     import IngredientComboboxCreate from "$lib/components/own/layout/create-recipe/IngredientComboboxCreate.svelte";
     import IngredientsSelectedCreate from "$lib/components/own/layout/create-recipe/IngredientsSelectedCreate.svelte";
+    import {createRecipe} from "$lib/controllers/recipeSearch";
+    import type {RecipeAndIngredients} from "$lib/models/recipeAndIngredients";
 
 
     let recipeCreated: Recipe = {
-        title: "",
-        ingredients: $ingredients,
-        steps: $steps
+        id: 0,
+        name: "",
+        steps: "",
+        created_by: undefined,
     };
+
+    let recipeAndIngredients: RecipeAndIngredients = {
+        recipe: recipeCreated,
+        ingredients: [],
+    }
 
     let userSteps = $steps;
 
@@ -39,6 +47,17 @@
         if (event.key === "Enter" || event.type === "click") {
             addStep();
         }
+    }
+
+    function handleCreateRecipe(){
+        recipeCreated.name = (document.getElementById("title") as HTMLInputElement).value;
+        recipeCreated.steps = $steps.join("\n");
+
+        recipeAndIngredients.recipe = recipeCreated;
+        recipeAndIngredients.ingredients = $ingredients;
+
+        console.log(recipeCreated);
+        createRecipe(recipeAndIngredients);
     }
 </script>
 
@@ -73,5 +92,5 @@
     </Card.Content>
 </Card.Root>
 <div class="flex items-center justify-center p-4">
-    <Button variant="default"> Create Recipe </Button>
+    <Button variant="default" on:click={handleCreateRecipe}> Create Recipe </Button>
 </div>

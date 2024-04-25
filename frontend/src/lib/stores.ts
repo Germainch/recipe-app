@@ -16,5 +16,5 @@ export const foundRecipes: Writable<Recipe[]> = writable([]);
 export const steps: Writable<string[]> = writable([]);
 export const ingredients: Writable<Ingredient[]> = writable([]);
 
-export const backendURL = import.meta.env.BACKEND_URL;
+export const backendURL = "http://localhost:3001";
 

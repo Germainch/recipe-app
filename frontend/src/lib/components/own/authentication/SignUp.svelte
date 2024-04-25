@@ -4,13 +4,37 @@
     import * as Form from "$lib/components/ui/form";
     import {Input} from "$lib/components/ui/command";
     import type {SuperForm} from "sveltekit-superforms";
+    import type {validatedUser} from "$lib/models/user";
+    import {register} from "$lib/controllers/auth";
+    import {currentState} from "$lib/stores";
 
 
     let formData;
+    function clientSideValidation(usernameValue: string, passwordValue: string): boolean
+    {
+        return (usernameValue.length > 3 && usernameValue.length < 9 && passwordValue.length > 3 && passwordValue.length < 9);
+    }
+
 
     function handleSubmitSignUP() {
-        console.log("Signing up");
-        //#todo validate form
+        let username = (document.getElementById('email') as HTMLInputElement).value;
+        let password = (document.getElementById('password') as HTMLInputElement).value;
+
+        let isValid = clientSideValidation(username, password);
+        if (isValid) {
+            console.log("Valid");
+        } else {
+            console.log("Invalid");
+        }
+        let validated: validatedUser = {id:0, name: username, password_hash: password};
+
+        let response = register(validated);
+        if (response){
+            console.log("User registered");
+            $currentState.isLogged = true;
+        } else {
+            console.log("User not registered");
+        }
     }
 </script>
 
