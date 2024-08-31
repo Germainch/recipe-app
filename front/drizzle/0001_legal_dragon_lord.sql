@@ -1,1 +1,0 @@
-ALTER TABLE "recipe_ingredient" ADD COLUMN "id" serial NOT NULL;
